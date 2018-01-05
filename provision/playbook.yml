@@ -2,6 +2,7 @@
 - hosts: all
   become: True
   tasks:
-    - include: tasks/deps.yml
-
-    # your code goes here ...
+    - include_tasks: tasks/deps.yml
+    - include_tasks: tasks/runit.yml
+    - include_tasks: tasks/application.yml
+    - include_tasks: tasks/nginx.yml

@@ -1,0 +1,34 @@
+---
+- name: add EPEL repo
+  yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+
+- name: install nginx
+  yum:
+    name: nginx
+    state: present
+
+- copy:
+    src: config/nginx.conf
+    dest: /etc/nginx/nginx.conf
+    mode: 0644
+
+- file:
+    path: /etc/nginx/ssl
+    state: directory
+    mode: 0600
+
+- copy:
+    src: files/self-signed.crt
+    dest: /etc/nginx/ssl/self-signed.crt
+    mode: 0644
+
+- copy:
+    src: files/self-signed.key
+    dest: /etc/nginx/ssl/self-signed.key
+    mode: 0600
+
+- name: start nginx
+  command: nginx

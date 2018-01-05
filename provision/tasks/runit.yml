@@ -1,0 +1,29 @@
+---
+- name: install pkg repo
+  yum_repository:
+    name: imeyer_runit
+    description: runit pkg repo
+    enabled: yes
+    baseurl: https://packagecloud.io/imeyer/runit/el/6/$basearch
+    gpgcheck: no
+    gpgkey: https://packagecloud.io/imeyer/runit/gpgkey
+    sslverify: yes
+    sslcacert: /etc/pki/tls/certs/ca-bundle.crt
+    metadata_expire: 300
+
+- name: install src repo
+  yum_repository:
+    name: imeyer_runit-source
+    description: runit src repo
+    enabled: yes
+    baseurl: https://packagecloud.io/imeyer/runit/el/6/SRPMS
+    gpgcheck: no
+    gpgkey: https://packagecloud.io/imeyer/runit/gpgkey
+    sslverify: yes
+    sslcacert: /etc/pki/tls/certs/ca-bundle.crt
+    metadata_expire: 300
+
+- name: install runit
+  yum:
+    name: runit
+    state: present

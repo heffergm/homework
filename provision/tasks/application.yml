@@ -1,0 +1,40 @@
+---
+- name: Extract application
+  unarchive:
+    src: application.zip
+    dest: /opt/
+
+- file:
+    path: /etc/service/application
+    state: directory
+    mode: 0755
+
+- file:
+    path: /etc/service/application/log
+    state: directory
+    mode: 0755
+
+- file:
+    path: /var/log/application
+    state: directory
+    mode: 0755
+
+- copy:
+    content: "#!/bin/sh\nexec svlogd -tt /var/log/application"
+    dest: /etc/service/application/log/run
+    mode: 0755
+
+- replace:
+    path: /opt/application/run
+    regexp: '^exec python server.py(.*)$'
+    replace: 'chpst -u nobody python server.py </dev/null >/dev/null 2>&1'
+    backup: no
+
+- file:
+    src: /opt/application/run
+    dest: /etc/service/application/run
+    state: link
+
+- runit:
+    name: application
+    state: started
