@@ -6,3 +6,6 @@
     - include_tasks: tasks/runit.yml
     - include_tasks: tasks/application.yml
     - include_tasks: tasks/nginx.yml
+
+    - name: Sleep before tests to ensure everything is running
+      command: sleep 3
