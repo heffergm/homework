@@ -3,6 +3,7 @@
   become: True
   tasks:
     - include_tasks: tasks/deps.yml
+    - include_tasks: tasks/epel.yml
     - include_tasks: tasks/runit.yml
     - include_tasks: tasks/application.yml
     - include_tasks: tasks/nginx.yml
