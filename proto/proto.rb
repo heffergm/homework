@@ -18,6 +18,7 @@ end
 #   1 byte record_type
 #   4 byte unix timestamp
 #   8 byte uid
+#   8 byte double for debit/credits
 #
 #   record_type enum:
 #     0x00: Debit
