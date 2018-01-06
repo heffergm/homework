@@ -65,7 +65,6 @@ puts 'Record count: ' + header.num_records.to_s
 puts '------------------'
 
 # set some vars
-i = 0
 debits = []
 credits = []
 end_autopays = 0
@@ -73,6 +72,7 @@ start_autopays = 0
 noted_uid_balance = 0
 
 # loop through the data
+i = 0
 while i <= header.num_records
   i += 1
   r = MpsRecord.read(io)
