@@ -6,3 +6,7 @@
 
 - `bundle install`
 - `./proto.rb`
+
+### Lint
+
+- `bundle exec rake`
