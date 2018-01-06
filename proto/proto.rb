@@ -76,28 +76,12 @@ while i <= header.num_records
   i += 1
   r = MpsRecord.read(io)
 
-  # I'm hopeful there's a better way to do this, but
-  #   as yet I haven't been able to figure it out, since
-  #   MPS returns empty strings for keys even when they
-  #   aren't found in the record. For example:
-  #
-  #   {:record_type=>0, :timestamp=>1389762186, :uid=>4280841143732940727}
-  #
-  #   This record contains no :start_autopay key, but calling
-  #   record.start_autopay returns an empty string rather than nil.
-  #
-  #   Following up with maintainer...
-  #
-  # Search for any autopay records, increment a counter
-  #   if we find one.
+  # Search for any autopay records, increment
+  #   the counter if we find one.
   #
   r.to_s =~ /start_autopay/ ? start_autopays += 1 : false
   r.to_s =~ /end_autopay/ ? end_autopays += 1 : false
 
-  # Same as above, but with records that don't actually
-  #   contain a debit or a credit float, MPS inserts
-  #   a float of 0.0 that we can use to ignore them
-  #
   # Push and debit or credit records into their
   #   respective arrays so we can sum them later.
   #
