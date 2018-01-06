@@ -77,15 +77,11 @@ while i <= header.num_records
   i += 1
   r = MpsRecord.read(io)
 
-  # Search for any autopay records, increment
-  #   the counter if we find one.
-  #
+  # increment autopay counters
   r.snapshot[:start_autopay].nil? ? true : start_autopays += 1
   r.snapshot[:end_autopay].nil? ? true : end_autopays += 1
 
-  # Push any debit or credit records into their
-  #   respective arrays so we can sum them later.
-  #
+  # push debits/credits into arrays
   r.snapshot[:debit].nil? ? true : debits.push(r.debit)
   r.snapshot[:credit].nil? ? true : credits.push(r.credit)
 
