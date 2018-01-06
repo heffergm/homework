@@ -24,8 +24,7 @@ following:
 
 ### Nginx Playbook Comments
 
-Installs nginx via EPEL, which seems generally safe and common on CentOS. Copies in required files
-with strict perms for SSL related items.
+Installs nginx via EPEL. Copies in required files with strict perms for SSL related items.
 
 I didn't bother creating an init or runit script for nginx and just let it daemonize itself. Were this
 something that ended up being used in an environment where it mattered, I'd use runit simply to
