@@ -1,0 +1,4 @@
+Style/NumericPredicate:
+  Enabled: false
+Style/NumericLiterals:
+  Enabled: false

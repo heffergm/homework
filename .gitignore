@@ -1,3 +1,4 @@
 .vagrant
 playbook.retry
 *.swp
+proto/ignore
