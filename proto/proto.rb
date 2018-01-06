@@ -70,13 +70,18 @@ while i <= header.num_records
   i += 1
   r = MpsRecord.read(io)
 
+  # I'm hopeful there's a better way to do this, but
+  #   as yet I haven't been able to figure it out, since
+  #   MPS returns empty strings records that don't contain
+  #   the key we care about. Following up with maintainer...
   r.to_s.match('end_autopay') ? start_autopays.push(1) : false
   r.to_s.match('start_autopay') ? end_autopays.push(1) : false
 
+  # Same as above, but with records that don't actually
+  #   contain a debit or a credit value, MPS inserts
+  #   a float of 0.0 that we can use to ignore them
   debits.push(r.debit) unless r.debit == 0.0
   credits.push(r.credit) unless r.credit == 0.0
-  #end_autopays.push(r.end_autopay) unless r.end_autopay == 0.0
-  #start_autopays.push(r.start_autopay) unless r.start_autopay == 0.0
 
   # figure out our special friend's balance
   if r.uid == 2456938384156277127
