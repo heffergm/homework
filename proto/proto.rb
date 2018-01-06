@@ -57,6 +57,7 @@ puts 'Magic string: ' + header.magic
 puts 'Version: ' + header.version.to_s
 puts 'Total number of records found: ' + header.num_records.to_s
 
+# set some vars
 i = 0
 debits = []
 credits = []
@@ -64,9 +65,13 @@ end_autopays = []
 start_autopays = []
 noted_uid_balance = 0
 
+# loop through the data
 while i <= header.num_records
+  i += 1
   r = MpsRecord.read(io)
-  puts r
+
+  r.to_s.match('end_autopay') ? start_autopays.push(1) : false
+  r.to_s.match('start_autopay') ? end_autopays.push(1) : false
 
   debits.push(r.debit) unless r.debit == 0.0
   credits.push(r.credit) unless r.credit == 0.0
@@ -78,14 +83,14 @@ while i <= header.num_records
     balance = r.credit - r.debit
     noted_uid_balance = noted_uid_balance + balance
   end
-  i += 1
 end
 
 total_debits = debits.inject(0){|sum,x| sum + x }
 total_credits = credits.inject(0){|sum,x| sum + x }
 
-puts 'Found UID 2456938384156277127. Balance: ' + noted_uid_balance.to_s
+puts
 puts 'Total debits: ' + total_debits.to_s
 puts 'Total credits: ' + total_credits.to_s
-#puts 'Autopays started: ' + start_autopays.length.to_s
-#puts 'Autopays ended: ' + end_autopays.length.to_s
+puts 'Autopays started: ' + start_autopays.length.to_s
+puts 'Autopays ended: ' + end_autopays.length.to_s
+puts 'Balance for uid 2456938384156277127: ' + noted_uid_balance.to_s
