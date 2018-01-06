@@ -82,7 +82,7 @@ while i <= header.num_records
   r.to_s =~ /start_autopay/ ? start_autopays += 1 : false
   r.to_s =~ /end_autopay/ ? end_autopays += 1 : false
 
-  # Push and debit or credit records into their
+  # Push any debit or credit records into their
   #   respective arrays so we can sum them later.
   #
   debits.push(r.debit) unless r.debit == 0.0
