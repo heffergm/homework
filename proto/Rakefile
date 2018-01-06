@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+namespace :test do
+  desc 'Run tests'
+  task :syntax do
+    puts 'Running rubocop'
+    sh 'rubocop proto.rb'
+  end
+end
+
+task default: 'test:syntax'
