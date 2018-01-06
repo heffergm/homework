@@ -61,7 +61,7 @@ puts 'Header information'
 puts '------------------'
 puts 'Magic: ' + header.magic
 puts 'Version: ' + header.version.to_s
-puts 'Number of records: ' + header.num_records.to_s
+puts 'Record count: ' + header.num_records.to_s
 puts '------------------'
 
 # set some vars
