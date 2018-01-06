@@ -53,9 +53,12 @@ end
 io = File.open('txnlog.dat')
 header = MpsHeader.read(io)
 
+puts 'Header information:'
+puts '-------------------'
 puts 'Magic string: ' + header.magic
 puts 'Version: ' + header.version.to_s
 puts 'Total number of records found: ' + header.num_records.to_s
+puts '-------------------'
 
 # set some vars
 i = 0
@@ -93,7 +96,7 @@ end
 total_debits = debits.inject(0){|sum,x| sum + x }
 total_credits = credits.inject(0){|sum,x| sum + x }
 
-puts
+puts 
 puts 'Total debits: ' + total_debits.to_s
 puts 'Total credits: ' + total_credits.to_s
 puts 'Autopays started: ' + start_autopays.length.to_s
