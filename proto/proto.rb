@@ -79,14 +79,14 @@ while i <= header.num_records
   # Search for any autopay records, increment
   #   the counter if we find one.
   #
-  r.to_s =~ /start_autopay/ ? start_autopays += 1 : false
-  r.to_s =~ /end_autopay/ ? end_autopays += 1 : false
+  r.snapshot[:start_autopay].nil? ? true : start_autopays += 1
+  r.snapshot[:end_autopay].nil? ? true : end_autopays += 1
 
   # Push any debit or credit records into their
   #   respective arrays so we can sum them later.
   #
-  debits.push(r.debit) unless r.debit == 0.0
-  credits.push(r.credit) unless r.credit == 0.0
+  r.snapshot[:debit].nil? ? true : debits.push(r.debit)
+  r.snapshot[:credit].nil? ? true : credits.push(r.credit)
 
   # figure out our special friend's balance
   if r.uid == 2456938384156277127
