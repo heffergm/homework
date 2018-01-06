@@ -9,9 +9,9 @@ require 'bindata'
 #
 class MpsHeader < BinData::Record
   endian  :big
-  string  :magic,       :length => 4
-  uint8   :version,     :length => 1
-  uint32  :num_records, :length => 4
+  string  :magic,       length: 4
+  uint8   :version,     length: 1
+  uint32  :num_records, length: 4
 end
 
 # the record spec is:
@@ -27,24 +27,27 @@ end
 #
 class MpsRecord < BinData::Record
   endian  :big
-  uint8   :record_type,   :length => 1
-  uint32  :timestamp,     :length => 4   
-  uint64  :uid,           :length => 8
-  double  :credit,        :length => 8, :onlyif => :is_credit?
-  double  :debit,         :length => 8, :onlyif => :is_debit?
-  string  :start_autopay, :length => 0, :onlyif => :is_start_autopay?
-  string  :end_autopay,   :length => 0, :onlyif => :is_end_autopay?
+  uint8   :record_type,   length: 1
+  uint32  :timestamp,     length: 4
+  uint64  :uid,           length: 8
+  double  :credit,        length: 8, onlyif: :_credit?
+  double  :debit,         length: 8, onlyif: :_debit?
+  string  :start_autopay, length: 0, onlyif: :_start_autopay?
+  string  :end_autopay,   length: 0, onlyif: :_end_autopay?
 
-  def is_debit?
+  def _debit?
     return true if record_type == 0x00
   end
-  def is_credit?
+
+  def _credit?
     return true if record_type == 0x01
   end
-  def is_start_autopay?
+
+  def _start_autopay?
     return true if record_type == 0x02
   end
-  def is_end_autopay?
+
+  def _end_autopay?
     return true if record_type == 0x03
   end
 end
@@ -75,17 +78,17 @@ while i <= header.num_records
 
   # I'm hopeful there's a better way to do this, but
   #   as yet I haven't been able to figure it out, since
-  #   MPS returns empty strings for keys even when they 
+  #   MPS returns empty strings for keys even when they
   #   aren't found in the record. For example:
   #
-  #   {:record_type=>0, :timestamp=>1389762186, :uid=>4280841143732940727, :debit=>313.44737449991106}
+  #   {:record_type=>0, :timestamp=>1389762186, :uid=>4280841143732940727}
   #
-  #   This record contains no :start_autopay key, but calling record.start_autopay
-  #   returns an empty string rather than nil.
+  #   This record contains no :start_autopay key, but calling
+  #   record.start_autopay returns an empty string rather than nil.
   #
   #   Following up with maintainer...
-  r.to_s.match('end_autopay') ? start_autopays.push(1) : false
-  r.to_s.match('start_autopay') ? end_autopays.push(1) : false
+  r.to_s =~ /start_autopay/ ? start_autopays.push(1) : false
+  r.to_s =~ /end_autopay/ ? end_autopays.push(1) : false
 
   # Same as above, but with records that don't actually
   #   contain a debit or a credit float, MPS inserts
@@ -96,15 +99,15 @@ while i <= header.num_records
   # figure out our special friend's balance
   if r.uid == 2456938384156277127
     balance = r.credit - r.debit
-    noted_uid_balance = noted_uid_balance + balance
+    noted_uid_balance += balance
   end
 end
 
 # sum our debits and credits arrays
-total_debits = debits.inject(0){|sum,x| sum + x }
-total_credits = credits.inject(0){|sum,x| sum + x }
+total_debits = debits.inject(:+)
+total_credits = credits.inject(:+)
 
-puts 
+puts
 puts 'Total debits: ' + total_debits.to_s
 puts 'Total credits: ' + total_credits.to_s
 puts 'Autopays started: ' + start_autopays.length.to_s
