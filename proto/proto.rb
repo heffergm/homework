@@ -53,12 +53,12 @@ end
 io = File.open('txnlog.dat')
 header = MpsHeader.read(io)
 
-puts 'Header information:'
-puts '-------------------'
+puts 'Header information'
+puts '------------------'
 puts 'Magic string: ' + header.magic
 puts 'Version: ' + header.version.to_s
 puts 'Total number of records found: ' + header.num_records.to_s
-puts '-------------------'
+puts '------------------'
 
 # set some vars
 i = 0
