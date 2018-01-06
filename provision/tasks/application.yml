@@ -39,3 +39,4 @@
 - runit:
     name: application
     state: started
+    service_dir: /etc/service
