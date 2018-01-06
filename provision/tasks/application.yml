@@ -3,6 +3,7 @@
   unarchive:
     src: application.zip
     dest: /opt/
+    creates: /opt/application
 
 - file:
     path: /etc/service/application
