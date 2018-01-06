@@ -67,8 +67,8 @@ puts '------------------'
 i = 0
 debits = []
 credits = []
-end_autopays = []
-start_autopays = []
+end_autopays = 0
+start_autopays = 0
 noted_uid_balance = 0
 
 # loop through the data
@@ -87,12 +87,20 @@ while i <= header.num_records
   #   record.start_autopay returns an empty string rather than nil.
   #
   #   Following up with maintainer...
-  r.to_s =~ /start_autopay/ ? start_autopays.push(1) : false
-  r.to_s =~ /end_autopay/ ? end_autopays.push(1) : false
+  #
+  # Search for any autopay records, increment a counter
+  #   if we find one.
+  #
+  r.to_s =~ /start_autopay/ ? start_autopays += 1 : false
+  r.to_s =~ /end_autopay/ ? end_autopays += 1 : false
 
   # Same as above, but with records that don't actually
   #   contain a debit or a credit float, MPS inserts
   #   a float of 0.0 that we can use to ignore them
+  #
+  # Push and debit or credit records into their
+  #   respective arrays so we can sum them later.
+  #
   debits.push(r.debit) unless r.debit == 0.0
   credits.push(r.credit) unless r.credit == 0.0
 
@@ -110,6 +118,6 @@ total_credits = credits.inject(:+)
 puts
 puts 'Total debits: ' + total_debits.to_s
 puts 'Total credits: ' + total_credits.to_s
-puts 'Autopays started: ' + start_autopays.length.to_s
-puts 'Autopays ended: ' + end_autopays.length.to_s
+puts 'Autopays started: ' + start_autopays.to_s
+puts 'Autopays ended: ' + end_autopays.to_s
 puts 'Balance for uid 2456938384156277127: ' + noted_uid_balance.to_s
