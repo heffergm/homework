@@ -58,7 +58,7 @@ header = MpsHeader.read(io)
 
 puts 'Header information'
 puts '------------------'
-puts 'Magic string: ' + header.magic
+puts 'Magic: ' + header.magic
 puts 'Version: ' + header.version.to_s
 puts 'Number of records: ' + header.num_records.to_s
 puts '------------------'
