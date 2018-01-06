@@ -92,13 +92,9 @@ while i <= header.num_records
   end
 end
 
-# sum our debits and credits arrays
-total_debits = debits.inject(:+)
-total_credits = credits.inject(:+)
-
 puts
-puts 'Total debits: ' + total_debits.to_s
-puts 'Total credits: ' + total_credits.to_s
+puts 'Total debits: ' + debits.inject(:+).to_s
+puts 'Total credits: ' + credits.inject(:+).to_s
 puts 'Autopays started: ' + start_autopays.to_s
 puts 'Autopays ended: ' + end_autopays.to_s
 puts 'Balance for uid 2456938384156277127: ' + noted_uid_balance.to_s
