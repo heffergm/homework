@@ -9,5 +9,4 @@
     - include_tasks: tasks/nginx.yml
 
   handlers:
-    - name: reload nginx
-      service: name=nginx state=reloaded
+    - import_tasks: tasks/handlers.yml
