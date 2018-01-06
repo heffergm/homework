@@ -10,8 +10,7 @@ installation and configuration of runit, the application and nginx into individu
 
 ### Runit Playbook Comments
 
-I basically reverse engineered the imeyer runit install script to put together an ansible friendly
-setup that uses `yum_repository` to set up the repos, as curl'ing a script off the internet and piping it to `sudo bash` isn't terribly safe (< understatement).
+Ansible friendly setup using `yum_repository` to the repos, as curl'ing a script off the internet and piping it to `sudo bash` isn't the best.
 
 ### Application Playbook Comments
 
@@ -20,7 +19,7 @@ setting up any required directory structure, etc. I spent an extra couple minute
 following:
 
 - created a logging configuration, mainly as a slave to habit and general good practice
-- updated the app run script to run it as `nobody`. Outside of docker, it hurts my soul to run services as root.
+- updated the app run script to run it as `nobody`. Outside of docker, don't like to run services as root.
 
 ### Nginx Playbook Comments
 
@@ -32,9 +31,9 @@ maintain commonality among all services related to the application.
 
 ### Nginx Config Comments
 
-Pretty straight forward, creates an upstream backend for the application, then sets up a listener on
-:80, which redirects everything back to https. Then the server on 443 configures ssl. Here it's worth
-noting I'm not an expert on SSL ciphers, and tend to favor SSL termination at the load balancer
-whenever possible, but a little Google'ing seems to suggest these settings are sane.
+Creates an upstream backend for the application, then sets up a listener on :80, which redirects
+everything back to https. Then the server on 443 configures ssl. Here it's worth noting I'm not
+an expert on SSL ciphers, and tend to favor SSL termination at the load balancer whenever possible,
+but a little Google'ing seems to suggest these settings are sane.
 
 Finally I set x-forwarded-for and x-real-ip headers and pass any incoming requests to our upstream.
