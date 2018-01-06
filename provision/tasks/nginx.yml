@@ -8,6 +8,8 @@
     src: config/nginx.conf
     dest: /etc/nginx/nginx.conf
     mode: 0644
+  notify:
+    - reload nginx
 
 - file:
     path: /etc/nginx/ssl
@@ -24,5 +26,6 @@
     dest: /etc/nginx/ssl/self-signed.key
     mode: 0600
 
-- name: start nginx
-  command: nginx
+- service:
+    name: nginx
+    state: started

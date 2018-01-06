@@ -2,6 +2,9 @@
 
 Cloning this repository and running `./provision.sh` will yield a PASS for all the requirements.
 
+Perhaps worth noting that this is the first time I've ever used ansible. All previous experience
+with config management tools has been chef/puppet.
+
 ### General Playbook Comments
 
 Modified existing `include: tasks/deps.yml` to be `include_tasks`, to resolve deprecation warning.
@@ -23,17 +26,15 @@ following:
 
 ### Nginx Playbook Comments
 
-Installs nginx via EPEL. Copies in required files with strict perms for SSL related items.
-
-I didn't bother creating an init or runit script for nginx and just let it daemonize itself. Were this
-something that ended up being used in an environment where it mattered, I'd use runit simply to
-maintain commonality among all services related to the application.
+Installs nginx via EPEL. Copies in required files with strict perms for SSL related items. Starts
+the service.
 
 ### Nginx Config Comments
 
 Creates an upstream backend for the application, then sets up a listener on :80, which redirects
 everything back to https. Then the server on 443 configures ssl. Here it's worth noting I'm not
-an expert on SSL ciphers, and tend to favor SSL termination at the load balancer whenever possible,
-but a little Google'ing seems to suggest these settings are sane.
+an expert on SSL ciphers, and tend to favor SSL termination at the load balancer (although obviously
+the cipher suite being used is still a consideration), but a little Google'ing seems to suggest these
+settings are reasonably secure.
 
 Finally I set x-forwarded-for and x-real-ip headers and pass any incoming requests to our upstream.
