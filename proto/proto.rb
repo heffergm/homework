@@ -73,7 +73,7 @@ noted_uid_balance = 0
 
 # loop through the data
 i = 0
-while i <= header.num_records
+while i < header.num_records
   i += 1
   r = MpsRecord.read(io)
 
