@@ -54,7 +54,7 @@ def build_data(datafile, mps_header)
   array = []
 
   i = 0
-  while i <= mps_header.num_records
+  while i < mps_header.num_records
     i += 1
     array.push(MpsRecord.read(datafile).snapshot)
   end
