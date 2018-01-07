@@ -54,7 +54,7 @@ def build_data(datafile, mps_header)
   array = []
 
   i = 0
-  while i <= mps_header.num_records
+  while i < mps_header.num_records
     i += 1
     array.push(MpsRecord.read(datafile).snapshot)
   end
@@ -73,7 +73,13 @@ def find_user_balance(uid, array)
     end
   end
 
-  balance = credits.inject(:+) - debits.inject(:+)
+  total_credits = credits.inject(:+)
+  total_debits = debits.inject(:+)
+
+  total_credits.nil? ? total_credits = 0 : false
+  total_debits.nil? ? total_debits = 0 : false
+  
+  balance = total_credits - total_debits
   balance
 end
 
@@ -81,7 +87,7 @@ def sum_type(type, array)
   results = []
   array.each do |i|
     i[type].nil? ? true : results.push(i[type])
-  end 
+  end
 
   sum = results.inject(:+)
   sum
