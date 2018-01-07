@@ -62,25 +62,39 @@ def build_data(datafile, mps_header)
   array
 end
 
-def find_user_balance(uid, array)
-  debits = []
-  credits = []
-
+def uid_exists(uid, array)
+  uids = 0
   array.each do |i|
-    if i[:uid] == uid
-      i[:debit].nil? ? true : debits.push(i[:debit])
-      i[:credit].nil? ? true : credits.push(i[:credit])
-    end
+    i[:uid] == uid ? uids += 1 : false
   end
 
-  total_credits = credits.inject(:+)
-  total_debits = debits.inject(:+)
+  uids.zero? ? false : true
+end
 
-  total_credits.nil? ? total_credits = 0 : false
-  total_debits.nil? ? total_debits = 0 : false
+def find_user_balance(uid, array)
+  exists = uid_exists(uid, array)
+  if exists == false
+    'UID NOT FOUND'
+  else
+    debits = []
+    credits = []
 
-  balance = total_credits - total_debits
-  balance
+    array.each do |i|
+      if i[:uid] == uid
+        i[:debit].nil? ? true : debits.push(i[:debit])
+        i[:credit].nil? ? true : credits.push(i[:credit])
+      end
+    end
+
+    total_credits = credits.inject(:+)
+    total_debits = debits.inject(:+)
+
+    total_credits.nil? ? total_credits = 0 : false
+    total_debits.nil? ? total_debits = 0 : false
+
+    balance = total_credits - total_debits
+    balance
+  end
 end
 
 def list_uids(array)
