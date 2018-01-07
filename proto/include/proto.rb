@@ -83,6 +83,15 @@ def find_user_balance(uid, array)
   balance
 end
 
+def list_uids(array)
+  uids = []
+  array.each do |i|
+    i[:uid].nil? ? true : uids.push(i[:uid])
+  end
+
+  uids.uniq
+end
+
 def sum_type(type, array)
   results = []
   array.each do |i|

@@ -19,4 +19,13 @@ OptionParser.new do |opts|
   ) do |uid|
     @options[:uid] = uid
   end
+
+  @options[:list_uids] = false
+  opts.on(
+    '--list-uids',
+    '-l',
+    'List unique UIDs in the MPS data set'
+  ) do |list_uids|
+    @options[:list_uids] = list_uids
+  end
 end.parse!

@@ -27,10 +27,14 @@ puts '------------------'
 # build and display data
 mps_data = build_data(io, header)
 
-puts
-puts 'Total debits: ' + sum_type(:debit, mps_data).to_s
-puts 'Total credits: ' + sum_type(:credit, mps_data).to_s
-puts 'Autopays started: ' + count_type(:start_autopay, mps_data).to_s
-puts 'Autopays ended: ' + count_type(:end_autopay, mps_data).to_s
-puts "Balance for uid #{@options[:uid]}: " \
-  + find_user_balance(@options[:uid], mps_data).to_s
+if @options[:list_uids] == true
+  puts list_uids(mps_data)
+else
+  puts
+  puts 'Total debits: ' + sum_type(:debit, mps_data).to_s
+  puts 'Total credits: ' + sum_type(:credit, mps_data).to_s
+  puts 'Autopays started: ' + count_type(:start_autopay, mps_data).to_s
+  puts 'Autopays ended: ' + count_type(:end_autopay, mps_data).to_s
+  puts "Balance for uid #{@options[:uid]}: " \
+    + find_user_balance(@options[:uid], mps_data).to_s
+end
