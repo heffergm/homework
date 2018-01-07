@@ -2,30 +2,8 @@
 
 require 'bindata'
 require 'optparse'
+require_relative 'include/options.rb'
 require_relative 'include/proto.rb'
-
-@options = {}
-OptionParser.new do |opts|
-  @options[:datafile] = 'txnlog.dat'
-  opts.on(
-    '--mps-datafile DATA_FILE',
-    '-f DATA_FILE',
-    String,
-    'Location of the MPS data file'
-  ) do |datafile|
-    @options[:datafile] = datafile
-  end
-
-  @options[:uid] = 2456938384156277127
-  opts.on(
-    '--uid UID',
-    '-u UID',
-    Integer,
-    'UID to find the balance for.'
-  ) do |uid|
-    @options[:uid] = uid
-  end
-end.parse!
 
 # read the header
 io = File.open(@options[:datafile])
