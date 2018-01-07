@@ -4,7 +4,7 @@ namespace :test do
   desc 'Run tests'
   task :syntax do
     puts 'Running rubocop'
-    sh 'rubocop proto.rb include/proto.rb'
+    sh 'rubocop proto.rb include/*.rb'
   end
 end
 

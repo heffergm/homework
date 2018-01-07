@@ -2,3 +2,9 @@ Style/NumericPredicate:
   Enabled: false
 Style/NumericLiterals:
   Enabled: false
+Layout/EmptyLinesAroundArguments:
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false
+Metrics/MethodLength:
+  Max: 15

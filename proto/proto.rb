@@ -10,8 +10,12 @@ io = File.open(@options[:datafile])
 header = MpsHeader.read(io)
 
 # basic check to make sure this is really MPS data
-abort 'Aborting! This does not appear to be an MPS data file. Header magic is: ' \
-  + header.magic + ', expected MPS7.' unless header.magic == 'MPS7'
+if header.magic == 'MPS7'
+  true
+else
+  abort 'Aborting! This does not appear to be an MPS data file. ' \
+    'Header magic is: ' + header.magic + ', expected MPS7.'
+end
 
 puts 'Header information'
 puts '------------------'
@@ -28,4 +32,5 @@ puts 'Total debits: ' + sum_type(:debit, mps_data).to_s
 puts 'Total credits: ' + sum_type(:credit, mps_data).to_s
 puts 'Autopays started: ' + count_type(:start_autopay, mps_data).to_s
 puts 'Autopays ended: ' + count_type(:end_autopay, mps_data).to_s
-puts "Balance for uid #{@options[:uid]}: " + find_user_balance(@options[:uid], mps_data).to_s
+puts "Balance for uid #{@options[:uid]}: " \
+  + find_user_balance(@options[:uid], mps_data).to_s

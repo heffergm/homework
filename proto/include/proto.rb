@@ -78,7 +78,7 @@ def find_user_balance(uid, array)
 
   total_credits.nil? ? total_credits = 0 : false
   total_debits.nil? ? total_debits = 0 : false
-  
+
   balance = total_credits - total_debits
   balance
 end
