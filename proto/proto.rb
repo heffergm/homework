@@ -64,6 +64,37 @@ puts 'Version: ' + header.version.to_s
 puts 'Record count: ' + header.num_records.to_s
 puts '------------------'
 
+# build the structured data set
+def build_data(datafile, mps_header)
+  array = []
+
+  i = 0
+  while i <= mps_header.num_records
+    i += 1
+    array.push(MpsRecord.read(datafile).snapshot)
+  end
+
+  return array
+end
+
+# helper method to find any user's balance
+def find_user_balance(uid, array)
+  debits = []
+  credits = []
+
+  array.each do |i|
+    if i[:uid] == uid
+      i[:debit].nil? ? true : debits.push(i[:debit])
+      i[:credit].nil? ? true : credits.push(i[:credit])
+    end
+  end
+
+  balance = credits.inject(:+) - debits.inject(:+)
+  return balance
+end
+
+mps_data = build_data(io, header)
+
 # set some vars
 debits = []
 credits = []
@@ -71,25 +102,14 @@ end_autopays = 0
 start_autopays = 0
 noted_uid_balance = 0
 
-# loop through the data
-i = 0
-while i <= header.num_records
-  i += 1
-  r = MpsRecord.read(io)
+mps_data.each do |i|
+  # sum the debits and credits
+  i[:debit].nil? ? true : debits.push(i[:debit])
+  i[:credit].nil? ? true : credits.push(i[:credit])
 
-  # increment autopay counters
-  r.snapshot[:start_autopay].nil? ? true : start_autopays += 1
-  r.snapshot[:end_autopay].nil? ? true : end_autopays += 1
-
-  # push debits/credits into arrays
-  r.snapshot[:debit].nil? ? true : debits.push(r.debit)
-  r.snapshot[:credit].nil? ? true : credits.push(r.credit)
-
-  # figure out our special friend's balance
-  if r.uid == 2456938384156277127
-    balance = r.credit - r.debit
-    noted_uid_balance += balance
-  end
+  # get autopays
+  i[:start_autopay].nil? ? true : start_autopays += 1
+  i[:end_autopay].nil? ? true : end_autopays += 1
 end
 
 puts
@@ -97,4 +117,4 @@ puts 'Total debits: ' + debits.inject(:+).to_s
 puts 'Total credits: ' + credits.inject(:+).to_s
 puts 'Autopays started: ' + start_autopays.to_s
 puts 'Autopays ended: ' + end_autopays.to_s
-puts 'Balance for uid 2456938384156277127: ' + noted_uid_balance.to_s
+puts 'Balance for uid 2456938384156277127: ' + find_user_balance(2456938384156277127, mps_data).to_s
