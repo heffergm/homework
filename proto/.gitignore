@@ -2,4 +2,4 @@
 playbook.retry
 *.swp
 proto/ignore
-proto/pkg
+pkg
