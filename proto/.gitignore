@@ -3,3 +3,4 @@ playbook.retry
 *.swp
 proto/ignore
 pkg
+txnlog.dat
