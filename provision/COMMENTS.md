@@ -2,9 +2,6 @@
 
 Cloning this repository and running `./provision.sh` will yield a PASS for all the requirements.
 
-Perhaps worth noting that this is the first time I've ever used ansible. All previous experience
-with config management tools has been chef/puppet.
-
 ### General Playbook Comments
 
 Modified existing `include: tasks/deps.yml` to be `include_tasks`, to resolve deprecation warning.
