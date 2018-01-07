@@ -10,7 +10,8 @@ installation and configuration of runit, the application and nginx into individu
 
 ### Runit Playbook Comments
 
-Ansible friendly setup using `yum_repository` to the repos, as curl'ing a script off the internet and piping it to `sudo bash` isn't the best.
+Ansible friendly setup using `yum_repository` resource to set up the repos, as curl'ing a script
+off the internet and piping it to `sudo bash` isn't the best.
 
 ### Application Playbook Comments
 
@@ -19,7 +20,8 @@ setting up any required directory structure, etc. I spent an extra couple minute
 following:
 
 - created a logging configuration, mainly as a slave to habit and general good practice
-- updated the app run script to run it as `nobody`. Outside of docker, don't like to run services as root.
+- updated the app run script to run it as `nobody`. Outside of docker, don't like to run services
+as root.
 
 ### Nginx Playbook Comments
 
