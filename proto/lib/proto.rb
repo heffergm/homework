@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'bindata'
-require 'rainbow'
+require 'text-table'
 require 'proto/meta'
 require 'proto/getopts'
 require_relative 'proto/include/methods.rb'
@@ -33,28 +33,22 @@ module Proto
     if getopts.list_uids == true
       puts list_uids(mps_data)
     else
-      puts
-      puts Rainbow('Header information').green
-      puts Rainbow('------------------').red
-      puts Rainbow('Magic: ').blue + header.magic
-      puts Rainbow('Version: ').blue + header.version.to_s
-      puts Rainbow('Record count: ').blue + header.num_records.to_s
-      puts Rainbow('------------------').red
+      header_array = [['Header Information', ''],
+                      ['Magic', header.magic],
+                      ['Version', header.version],
+                      ['Record count', header.num_records]]
 
       puts
-      puts Rainbow('Total debits: ').yellow + sum_type(:debit, mps_data).to_s
-      puts Rainbow('Total credits: ').yellow + sum_type(:credit, mps_data).to_s
-      puts Rainbow('Autopays started: ').yellow + count_type(:start_autopay, mps_data).to_s
-      puts Rainbow('Autopays ended: ').yellow + count_type(:end_autopay, mps_data).to_s
+      puts header_array.to_table(first_row_is_head: true)
 
-      # color the output if the UID wasn't found
-      print Rainbow("Balance for uid #{getopts.uid}: ").yellow
-      ub = find_user_balance(getopts.uid, mps_data).to_s
-      if ub == 'UID NOT FOUND'
-        puts Rainbow(ub).red.bright
-      else
-        puts ub
-      end
+      puts
+      data_array = [['Total debits', sum_type(:debit, mps_data).to_s],
+                    ['Total credits', sum_type(:credit, mps_data).to_s],
+                    ['Autopays started', count_type(:start_autopay, mps_data).to_s],
+                    ['Autopays ended', count_type(:end_autopay, mps_data).to_s],
+                    ["Balance for UID #{getopts.uid}", find_user_balance(getopts.uid, mps_data).to_s]]
+
+      puts data_array.to_table
       puts
     end
   end
