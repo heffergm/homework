@@ -2,7 +2,11 @@
 
 require 'bindata'
 
-# model the header data
+# the header spec is:
+#  4 byte magic string 'MPS7'
+#  1 byte version
+#  4 byte number of records
+#
 class MpsHeader < BinData::Record
   endian  :big
   string  :magic,       length: 4
@@ -10,7 +14,18 @@ class MpsHeader < BinData::Record
   uint32  :num_records, length: 4
 end
 
-# model the record data
+# the record spec is:
+#   1 byte record_type
+#   4 byte unix timestamp
+#   8 byte uid
+#   8 byte double for debit/credits
+#
+#   record_type enum:
+#     0x00: Debit
+#     0x01: Credit
+#     0x02: StartAutopay
+#     0x03: EndAutopay
+#
 class MpsRecord < BinData::Record
   endian  :big
   uint8   :record_type,   length: 1
