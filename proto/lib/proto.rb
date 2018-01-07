@@ -42,13 +42,14 @@ module Proto
       puts header_array.to_table(first_row_is_head: true)
 
       puts
-      data_array = [['Total debits', sum_type(:debit, mps_data).to_s],
+      data_array = [['Record Information', ''],
+                    ['Total debits', sum_type(:debit, mps_data).to_s],
                     ['Total credits', sum_type(:credit, mps_data).to_s],
                     ['Autopays started', count_type(:start_autopay, mps_data).to_s],
                     ['Autopays ended', count_type(:end_autopay, mps_data).to_s],
                     ["Balance for UID #{getopts.uid}", find_user_balance(getopts.uid, mps_data).to_s]]
 
-      puts data_array.to_table
+      puts data_array.to_table(first_row_is_head: true)
       puts
     end
   end
