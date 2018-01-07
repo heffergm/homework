@@ -26,6 +26,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'bindata', '~> 2.4.1'
+  spec.add_dependency 'rainbow', '~> 3.0.0'
 
   spec.add_development_dependency 'bundler', '~> 1.13.7'
   spec.add_development_dependency 'rake', '~> 12.0.0'
