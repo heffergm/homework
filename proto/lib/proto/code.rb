@@ -11,7 +11,11 @@ module Proto
       getopts = Proto.getopts
 
       # read the header
-      io = File.open(getopts.datafile)
+      begin
+        io = File.open(getopts.datafile)
+      rescue StandardError => e
+        abort "Failed to open #{getopts.datafile}: #{e}"
+      end
       header = MpsHeader.read(io)
 
       # basic check to make sure this is really MPS data
