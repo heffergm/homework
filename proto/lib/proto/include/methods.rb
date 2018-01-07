@@ -92,8 +92,7 @@ def find_user_balance(uid, array)
     total_credits.nil? ? total_credits = 0 : false
     total_debits.nil? ? total_debits = 0 : false
 
-    balance = total_credits - total_debits
-    balance
+    total_credits - total_debits
   end
 end
 
@@ -112,8 +111,7 @@ def sum_type(type, array)
     i[type].nil? ? true : results.push(i[type])
   end
 
-  sum = results.inject(:+)
-  sum
+  results.inject(:+)
 end
 
 def count_type(type, array)

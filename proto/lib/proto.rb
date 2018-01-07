@@ -32,12 +32,12 @@ module Proto
     if getopts.list_uids == true
       puts list_uids(mps_data)
     else
-    	puts 'Header information'
-    	puts '------------------'
-    	puts 'Magic: ' + header.magic
-    	puts 'Version: ' + header.version.to_s
-    	puts 'Record count: ' + header.num_records.to_s
-    	puts '------------------'
+      puts 'Header information'
+      puts '------------------'
+      puts 'Magic: ' + header.magic
+      puts 'Version: ' + header.version.to_s
+      puts 'Record count: ' + header.num_records.to_s
+      puts '------------------'
 
       puts
       puts 'Total debits: ' + sum_type(:debit, mps_data).to_s
