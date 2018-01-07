@@ -1,3 +1,8 @@
+### Notes
+
+I like the simplicity of this solution. However, I couldn't resist building a somewhat more
+reusable solution as a gem, which is available in the [proto_gem](https://github.com/heffergm/homework/tree/proto_gem/proto) branch.
+
 ### Requirements
 
 - ruby2.4
