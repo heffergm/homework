@@ -6,12 +6,12 @@ Cloning this repository and running `./provision.sh` will yield a PASS for all t
 
 Modified existing `include: tasks/deps.yml` to be `include_tasks`, to resolve deprecation warning.
 In keeping with the separation of various tasks in individual include files, I broke out the
-installation and configuration of runit, the application and nginx into individual include files.
+installation and configuration of runit, the application, nginx, etc into individual include files.
 
 ### Runit Playbook Comments
 
 Ansible friendly setup using `yum_repository` resource to set up the repos, as curl'ing a script
-off the internet and piping it to `sudo bash` isn't the best.
+off the internet and piping it to `sudo bash` isn't the best idea.
 
 ### Application Playbook Comments
 
